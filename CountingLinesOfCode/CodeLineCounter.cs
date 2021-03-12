@@ -23,22 +23,22 @@ namespace CountingLinesOfCode
 
             var lines = content.Split("\n").ToList();
 
-            return lines.Count(x => !IsCommentedLine(x));
+            return lines.Count(IsLineOfCode);
         }
 
-        private static bool IsCommentedLine(string line)
+        private static bool IsLineOfCode(string line)
         {
             if (line.StartsWith(SingleLineStart))
             {
-                return true;
+                return false;
             }
 
             if (IsWholeLineAMultiLineComment(line))
             {
-                return true;
+                return false;
             }
 
-            return !HasCode(line);
+            return HasCode(line);
         }
 
         private static bool IsWholeLineAMultiLineComment(string line)
