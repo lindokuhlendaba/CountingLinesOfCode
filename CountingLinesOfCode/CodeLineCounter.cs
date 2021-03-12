@@ -16,11 +16,6 @@ namespace CountingLinesOfCode
                 throw new ArgumentNullException(nameof(content), "Cannot process file content of null");
             }
 
-            if (content.Trim() == string.Empty)
-            {
-                return 0;
-            }
-
             var lines = content.Split("\n").ToList();
 
             return lines.Count(IsLineOfCode);
@@ -28,6 +23,11 @@ namespace CountingLinesOfCode
 
         private static bool IsLineOfCode(string line)
         {
+            if (line.Trim() == string.Empty)
+            {
+                return false;
+            }
+
             if (line.StartsWith(SingleLineStart))
             {
                 return false;

@@ -71,7 +71,23 @@ namespace CountingLinesOfCodeTests
             public void GivenOneLineOnlyCode_ShouldReturnOne()
             {
                 //arrange
-                var content = "var things = 2;";
+                const string content = "var things = 2;";
+                var sut = CreateSut();
+
+                //act
+                var result = sut.CountLinesOfCode(content);
+
+                //assert
+                Assert.AreEqual(result, 1);
+            }
+
+            [TestCase("//this is a comment\nvar things = 2;")]
+            [TestCase("throw new Exception();\n/*Throwing for days*/")]
+            [TestCase("/* Today is Friday */\n return 5;")]
+            [TestCase("if(thing == \"bob\")\n//Only on Tuesdays")]
+            public void GivenOneCodeLineAndOneCommentLine_ShouldReturnOne(string content)
+            {
+                //arrange
                 var sut = CreateSut();
 
                 //act
@@ -82,10 +98,24 @@ namespace CountingLinesOfCodeTests
             }
 
             [Test]
-            public void GivenOneCodeLineAndOneCommentLine_ShouldReturnOne()
+            public void GivenTwoLinesOfCode_ShouldReturnTwo()
             {
                 //arrange
-                var content = "//this is a comment\nvar things = 2;";
+                const string content = "public class FooThing\n{";
+                var sut = CreateSut();
+
+                //act
+                var result = sut.CountLinesOfCode(content);
+
+                //assert
+                Assert.AreEqual(result, 2);
+            }
+            
+            [Test]
+            public void GivenOneLineOfCodeAndOneEmptyLine_ShouldReturnOne()
+            {
+                //arrange
+                const string content = "public class FooThing\n\n";
                 var sut = CreateSut();
 
                 //act
@@ -94,7 +124,21 @@ namespace CountingLinesOfCodeTests
                 //assert
                 Assert.AreEqual(result, 1);
             }
-            
+
+            [Test]
+            public void GivenTwoCommentLines_ShouldReturnZero()
+            {
+                //arrange
+                const string content = "/* I need to refactor this */\n// I never get round to refactoring";
+                var sut = CreateSut();
+
+                //act
+                var result = sut.CountLinesOfCode(content);
+
+                //assert
+                Assert.AreEqual(result, 0);
+            }
+
             [TestCase("/*this is a comment*/var things = 2;")]
             [TestCase("var things = 2;/*this is a comment*/")]
             [TestCase("/*this is a comment*/var things = 2; //comment")]
@@ -115,7 +159,5 @@ namespace CountingLinesOfCodeTests
         {
             return new CodeLineCounter();
         }
-
     }
-    
 }
