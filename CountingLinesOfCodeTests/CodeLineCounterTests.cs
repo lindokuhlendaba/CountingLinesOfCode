@@ -110,12 +110,12 @@ namespace CountingLinesOfCodeTests
                 //assert
                 Assert.AreEqual(result, 2);
             }
-            
-            [Test]
-            public void GivenOneLineOfCodeAndOneEmptyLine_ShouldReturnOne()
+
+            [TestCase("public class FooThing\n\n")]
+            [TestCase("\nvar lineOfCode='this is a line of code';\n")]
+            public void GivenOneLineOfCodeAndOneEmptyLine_ShouldReturnOne(string content)
             {
                 //arrange
-                const string content = "public class FooThing\n\n";
                 var sut = CreateSut();
 
                 //act
@@ -123,6 +123,20 @@ namespace CountingLinesOfCodeTests
 
                 //assert
                 Assert.AreEqual(result, 1);
+            }
+
+            [TestCase("\n//Im running out of comments to write\n")]
+            [TestCase("\n/*Im running out of comments to write */\n")]
+            public void GivenOneCommentLineAndOneEmptyLine_ShouldReturnZero(string content)
+            {
+                //arrange
+                var sut = CreateSut();
+
+                //act
+                var result = sut.CountLinesOfCode(content);
+
+                //assert
+                Assert.AreEqual(result, 0);
             }
 
             [Test]
