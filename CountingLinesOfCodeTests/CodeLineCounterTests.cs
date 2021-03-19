@@ -167,6 +167,20 @@ namespace CountingLinesOfCodeTests
                 //assert
                 Assert.AreEqual(result, 1);
             }
+
+            [Test]
+            public void GivenOnlyMultiLineCommentThatSpansMultipleLines_ShouldReturnZero()
+            {
+                //arrange
+                var content = "/*this is something\r\n*more text\r\n*/";
+                var sut = CreateSut();
+
+                //act
+                var result = sut.CountLinesOfCode(content);
+
+                //assert
+                Assert.AreEqual(result, 0);
+            }
         }
 
         private static CodeLineCounter CreateSut()

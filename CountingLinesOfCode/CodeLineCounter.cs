@@ -43,7 +43,8 @@ namespace CountingLinesOfCode
 
         private static bool IsWholeLineAMultiLineComment(string line)
         {
-            return (line.StartsWith(MultiLineStart) && line.EndsWith(MultiLineEnd));
+            return ((line.StartsWith(MultiLineStart) && line.EndsWith(MultiLineEnd))
+                   || (line.StartsWith(MultiLineStart) && !line.Contains(MultiLineEnd)));
         }
 
         private static bool HasCode(string line)
