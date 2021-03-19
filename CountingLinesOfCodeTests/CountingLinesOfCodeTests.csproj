@@ -21,6 +21,9 @@
     <Compile Update="files\FileWith1Line.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="files\FileWithMultipleLines.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="files\FileWithoutContents.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -47,6 +48,26 @@ namespace CountingLinesOfCodeTests
                 //act
                 var content = sut.Read(filePath);
                 //assert
+                content.Should().Be(expected);
+            }
+
+            [Test]
+            public void GivenFileWithMultipleLines_ShouldReturnAllContent()
+            {
+                //arrange
+                var sut = new FileReader();
+                var filePath = GetFilePath("FileWithMultipleLines.cs");
+                var stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine("namespace CountingLinesOfCodeTests.files");
+                stringBuilder.AppendLine("{");
+                stringBuilder.AppendLine("public class FileWithMultipleLines");
+                stringBuilder.AppendLine("{");
+                stringBuilder.AppendLine("}");
+                stringBuilder.Append("}");
+                //act
+                var content = sut.Read(filePath);
+                //assert
+                var expected = stringBuilder.ToString();
                 content.Should().Be(expected);
             }
 
