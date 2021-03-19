@@ -16,14 +16,14 @@ namespace CountingLinesOfCode
                 throw new ArgumentNullException(nameof(content), "Cannot process file content of null");
             }
 
-            var lines = content.Split("\r\n").ToList();
+            var lines = content.Split("\r\n").Select(x => x.Trim('\t', ' ')).ToList();
 
             return lines.Count(IsLineOfCode);
         }
 
         private static bool IsLineOfCode(string line)
         {
-            if (line.Trim() == string.Empty)
+            if (line == string.Empty)
             {
                 return false;
             }
