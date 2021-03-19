@@ -81,10 +81,10 @@ namespace CountingLinesOfCodeTests
                 Assert.AreEqual(result, 1);
             }
 
-            [TestCase("//this is a comment\nvar things = 2;")]
-            [TestCase("throw new Exception();\n/*Throwing for days*/")]
-            [TestCase("/* Today is Friday */\n return 5;")]
-            [TestCase("if(thing == \"bob\")\n//Only on Tuesdays")]
+            [TestCase("//this is a comment\r\nvar things = 2;")]
+            [TestCase("throw new Exception();\r\n/*Throwing for days*/")]
+            [TestCase("/* Today is Friday */\r\n return 5;")]
+            [TestCase("if(thing == \"bob\")\r\n//Only on Tuesdays")]
             public void GivenOneCodeLineAndOneCommentLine_ShouldReturnOne(string content)
             {
                 //arrange
@@ -101,7 +101,7 @@ namespace CountingLinesOfCodeTests
             public void GivenTwoLinesOfCode_ShouldReturnTwo()
             {
                 //arrange
-                const string content = "public class FooThing\n{";
+                const string content = "public class FooThing\r\n{";
                 var sut = CreateSut();
 
                 //act
@@ -111,8 +111,8 @@ namespace CountingLinesOfCodeTests
                 Assert.AreEqual(result, 2);
             }
 
-            [TestCase("public class FooThing\n\n")]
-            [TestCase("\nvar lineOfCode='this is a line of code';\n")]
+            [TestCase("public class FooThing\r\n")]
+            [TestCase("\r\nvar lineOfCode='this is a line of code';\r\n")]
             public void GivenOneLineOfCodeAndOneEmptyLine_ShouldReturnOne(string content)
             {
                 //arrange
@@ -125,8 +125,8 @@ namespace CountingLinesOfCodeTests
                 Assert.AreEqual(result, 1);
             }
 
-            [TestCase("\n//Im running out of comments to write\n")]
-            [TestCase("\n/*Im running out of comments to write */\n")]
+            [TestCase("\r\n//Im running out of comments to write\r\n")]
+            [TestCase("\r\n/*Im running out of comments to write */\r\n")]
             public void GivenOneCommentLineAndOneEmptyLine_ShouldReturnZero(string content)
             {
                 //arrange
@@ -143,7 +143,7 @@ namespace CountingLinesOfCodeTests
             public void GivenTwoCommentLines_ShouldReturnZero()
             {
                 //arrange
-                const string content = "/* I need to refactor this */\n// I never get round to refactoring";
+                const string content = "/* I need to refactor this */\r\n// I never get round to refactoring";
                 var sut = CreateSut();
 
                 //act

@@ -16,7 +16,7 @@ namespace CountingLinesOfCode
                 throw new ArgumentNullException(nameof(content), "Cannot process file content of null");
             }
 
-            var lines = content.Split("\n").ToList();
+            var lines = content.Split("\r\n").ToList();
 
             return lines.Count(IsLineOfCode);
         }
