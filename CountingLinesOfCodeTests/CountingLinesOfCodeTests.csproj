@@ -24,9 +24,6 @@
     <Compile Update="files\FileWithMultipleLines.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="files\FileWithMultiLineComments.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="files\FileWithoutContents.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
