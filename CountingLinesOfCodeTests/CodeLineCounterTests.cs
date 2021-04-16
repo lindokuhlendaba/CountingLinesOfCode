@@ -208,6 +208,66 @@ namespace CountingLinesOfCodeTests
                     //assert
                     Assert.AreEqual(result, 1);
                 }
+
+                [Test]
+                public void StartingWithLineOfCode_ShouldReturnOne()
+                {
+                    //arrange
+                    var content = "var x=0;/*this is something\r\n*more text\r\n*/";
+                    var sut = CreateSut();
+
+                    //act
+                    var result = sut.CountLinesOfCode(content);
+
+                    //assert
+                    Assert.AreEqual(result, 1);
+                }
+
+                [Test]
+                public void StartingAndEndingWithLineOfCode_ShouldReturnTwo()
+                {
+                    //arrange
+                    var content = "var x=0;/*this is something\r\n*more text\r\n*/x=3;";
+                    var sut = CreateSut();
+
+                    //act
+                    var result = sut.CountLinesOfCode(content);
+
+                    //assert
+                    Assert.AreEqual(result, 2);
+                }
+
+                [Test]
+                public void TwoSetsOfMultipleMultilineComments_ShouldReturnZero()
+                {
+                    //arrange
+                    var content = "/*this is something\r\n*more text\r\n*/\r\n/*test\r\n*continuation comment*/";
+                    var sut = CreateSut();
+
+                    //act
+                    var result = sut.CountLinesOfCode(content);
+
+                    //assert
+                    Assert.AreEqual(result, 0);
+                }
+
+                [Test]
+                public void TwoSetsOfMultipleMultilineComments_WithCodeInBetween_ShouldReturnZero()
+                {
+                    //arrange
+                    var content = "/*this is something\r\n" +
+                                  "*more text\r\n" +
+                                  "*/\r\n" + "var y=9;" +
+                                  "/*test\r\n" +
+                                  "*continuation comment*/";
+                    var sut = CreateSut();
+
+                    //act
+                    var result = sut.CountLinesOfCode(content);
+
+                    //assert
+                    Assert.AreEqual(result, 1);
+                }
             }
         }
 
