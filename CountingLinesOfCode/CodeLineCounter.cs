@@ -8,6 +8,7 @@ namespace CountingLinesOfCode
         private const string MultiLineStart = "/*";
         private const string MultiLineEnd = "*/";
         private const string SingleLineStart = "//";
+        private const string MultilineContinuation = "*";
 
         public int CountLinesOfCode(string content)
         {
@@ -43,8 +44,8 @@ namespace CountingLinesOfCode
 
         private static bool IsWholeLineAMultiLineComment(string line)
         {
-            return ((line.StartsWith(MultiLineStart) && line.EndsWith(MultiLineEnd))
-                   || (line.StartsWith(MultiLineStart) && !line.Contains(MultiLineEnd)));
+            return ((line.StartsWithAny(MultiLineStart, MultilineContinuation) && line.EndsWith(MultiLineEnd))
+                   || line.StartsWithAny(MultiLineStart, MultilineContinuation) && !line.Contains(MultiLineEnd));
         }
 
         private static bool HasCode(string line)

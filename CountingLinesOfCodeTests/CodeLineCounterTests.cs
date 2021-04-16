@@ -5,8 +5,10 @@ using System;
 
 namespace CountingLinesOfCodeTests
 {
+    [TestFixture]
     public class CodeLineCounterTests
     {
+        [TestFixture]
         public class CountLinesOfCode
         {
             [Test]
@@ -168,18 +170,36 @@ namespace CountingLinesOfCodeTests
                 Assert.AreEqual(result, 1);
             }
 
-            [Test]
-            public void GivenOnlyMultiLineCommentThatSpansMultipleLines_ShouldReturnZero()
+            [TestFixture]
+            public class MultipleLinesCommentSpanningMultipleLines
             {
-                //arrange
-                var content = "/*this is something\r\n*more text\r\n*/";
-                var sut = CreateSut();
+                [Test]
+                public void ShouldReturnZero()
+                {
+                    //arrange
+                    var content = "/*this is something\r\n*more text\r\n*/";
+                    var sut = CreateSut();
 
-                //act
-                var result = sut.CountLinesOfCode(content);
+                    //act
+                    var result = sut.CountLinesOfCode(content);
 
-                //assert
-                Assert.AreEqual(result, 0);
+                    //assert
+                    Assert.AreEqual(result, 0);
+                }
+
+                [Test]
+                public void EndingWithLineOfCode_ShouldReturnOne()
+                {
+                    //arrange
+                    var content = "/*this is something\r\n*more text\r\n*/ var x=0;";
+                    var sut = CreateSut();
+
+                    //act
+                    var result = sut.CountLinesOfCode(content);
+
+                    //assert
+                    Assert.AreEqual(result, 1);
+                }
             }
         }
 
