@@ -11,62 +11,84 @@ namespace CountingLinesOfCodeTests
         [TestFixture]
         public class CountLinesOfCode
         {
-            [Test]
-            public void GivenNoContent_ShouldReturnZero()
+            [TestFixture]
+            public class NoContent
             {
-                //arrange
-                var content = string.Empty;
-                var sut = CreateSut();
+                [Test]
+                public void ShouldReturnZero()
+                {
+                    //arrange
+                    var content = string.Empty;
+                    var sut = CreateSut();
 
-                //act
-                var result = sut.CountLinesOfCode(content);
+                    //act
+                    var result = sut.CountLinesOfCode(content);
 
-                //assert
-                Assert.AreEqual(result, 0);
+                    //assert
+                    Assert.AreEqual(result, 0);
+                }
+
+                [Test]
+                public void GivenOneLineWithWhitespace_ShouldReturnZero()
+                {
+                    //arrange
+                    var content = "   ";
+                    var sut = CreateSut();
+
+                    //act
+                    var result = sut.CountLinesOfCode(content);
+
+                    //assert
+                    Assert.AreEqual(result, 0);
+                }
+
+                [Test]
+                public void GivenContentIsNull_ShouldThrow()
+                {
+                    //arrange
+                    string content = null;
+                    var sut = CreateSut();
+                    var expected = "Cannot process file content of null";
+
+                    //act
+                    var exception = Assert.Throws<ArgumentNullException>(() => sut.CountLinesOfCode(content));
+
+                    //assert
+                    exception.Message.Should().Contain(expected);
+                }
             }
 
-            [Test]
-            public void GivenOneLineWithWhitespace_ShouldReturnZero()
+            [TestFixture]
+            public class CommentsOnly
             {
-                //arrange
-                var content = "   ";
-                var sut = CreateSut();
+                [TestCase("/*Some commented out line that is here*/")]
+                [TestCase("//Some commented out line that is here")]
+                [TestCase("/*this is a comment*/ // things")]
+                public void GivenContentContainsOneLineWithAComment_ShouldReturnZero(string content)
+                {
+                    //arrange
+                    var sut = CreateSut();
 
-                //act
-                var result = sut.CountLinesOfCode(content);
+                    //act
+                    var result = sut.CountLinesOfCode(content);
 
-                //assert
-                Assert.AreEqual(result, 0);
-            }
+                    //assert
+                    result.Should().Be(0);
+                }
 
-            [Test]
-            public void GivenContentIsNull_ShouldThrow()
-            {
-                //arrange
-                string content = null;
-                var sut = CreateSut();
-                var expected = "Cannot process file content of null";
+                [TestCase("\r\n//Im running out of comments to write\r\n")]
+                [TestCase("\r\n/*Im running out of comments to write */\r\n")]
+                public void GivenOneCommentLineAndOneEmptyLine_ShouldReturnZero(string content)
+                {
+                    //arrange
+                    var sut = CreateSut();
 
-                //act
-                var exception = Assert.Throws<ArgumentNullException>(() => sut.CountLinesOfCode(content));
+                    //act
+                    var result = sut.CountLinesOfCode(content);
 
-                //assert
-                exception.Message.Should().Contain(expected);
-            }
-
-            [TestCase("/*Some commented out line that is here*/")]
-            [TestCase("//Some commented out line that is here")]
-            [TestCase("/*this is a comment*/ // things")]
-            public void GivenContentContainsOneLineWithAComment_ShouldReturnZero(string content)
-            {
-                //arrange
-                var sut = CreateSut();
-
-                //act
-                var result = sut.CountLinesOfCode(content);
-
-                //assert
-                result.Should().Be(0);
+                    //assert
+                    Assert.AreEqual(result, 0);
+                }
             }
 
             [Test]
@@ -125,20 +147,6 @@ namespace CountingLinesOfCodeTests
 
                 //assert
                 Assert.AreEqual(result, 1);
-            }
-
-            [TestCase("\r\n//Im running out of comments to write\r\n")]
-            [TestCase("\r\n/*Im running out of comments to write */\r\n")]
-            public void GivenOneCommentLineAndOneEmptyLine_ShouldReturnZero(string content)
-            {
-                //arrange
-                var sut = CreateSut();
-
-                //act
-                var result = sut.CountLinesOfCode(content);
-
-                //assert
-                Assert.AreEqual(result, 0);
             }
 
             [Test]
