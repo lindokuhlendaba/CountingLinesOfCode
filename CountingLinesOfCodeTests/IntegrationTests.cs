@@ -33,7 +33,7 @@ namespace CountingLinesOfCodeTests
             var content = fileReader.Read(filePath);
             var result = codeLineCounter.CountLinesOfCode(content);
             //Assert
-            result.Should().Be(19);
+            result.Should().Be(20);
         }
 
         private static string GetFilePath(string fileName)
