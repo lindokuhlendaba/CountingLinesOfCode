@@ -268,6 +268,20 @@ namespace CountingLinesOfCodeTests
                     //assert
                     Assert.AreEqual(result, 1);
                 }
+
+                [Test]
+                public void GivenLineStartsWithEndOfMultilineCommentAndIsFollowedByCodeAndMultilineCommentOnSameLine_ShouldCountLine()
+                {
+                    //arrange
+                    var content = "*}*/private int secondNumber = 2;/* I dont know what this is for */";
+                    var sut = CreateSut();
+
+                    //act
+                    var result = sut.CountLinesOfCode(content);
+
+                    //assert
+                    Assert.AreEqual(result, 1);
+                }
             }
         }
 
